@@ -16,6 +16,11 @@ pub enum ShapeData {
     ///
     /// See [`Rectangle`]
     Rectangle(Rectangle),
+
+    /// A line segment
+    ///
+    /// See [`Segment`]
+    Segment(Segment),
 }
 
 impl Support for ShapeData {
@@ -23,6 +28,7 @@ impl Support for ShapeData {
         match self {
             ShapeData::Circle(circle) => circle.support(direction),
             ShapeData::Rectangle(rect) => rect.support(direction),
+            ShapeData::Segment(segment) => segment.support(direction),
         }
     }
 }
@@ -96,6 +102,31 @@ impl Support for Rectangle {
             support.y = -support.y;
         }
         support
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct Segment(Vec2, Vec2);
+
+impl Segment {
+    pub fn new(start_point: impl Into<[f32; 2]>, end_point: impl Into<[f32; 2]>) -> Self {
+        Self(start_point.into().into(), end_point.into().into())
+    }
+}
+
+impl Support for Segment {
+    fn support(&self, direction: Vec2) -> Vec2 {
+        if self.0.dot(direction) >= self.1.dot(direction) {
+            self.0
+        } else {
+            self.1
+        }
+    }
+}
+
+impl From<Segment> for ShapeData {
+    fn from(segment: Segment) -> Self {
+        Self::Segment(segment)
     }
 }
 

@@ -29,6 +29,14 @@ use impacted::{CollisionShape, Transform};
     CollisionShape::new_circle(1.0),
     CollisionShape::new_rectangle(2.0, 2.0).with_transform(Transform::from_angle_translation(consts::FRAC_PI_4, Vec2::X * 2.3)),
 )]
+#[case(
+    CollisionShape::new_circle(1.0),
+    CollisionShape::new_segment(Vec2::ZERO, Vec2::X * 2.0)
+)]
+#[case(
+    CollisionShape::new_segment(-Vec2::Y, Vec2::Y),
+    CollisionShape::new_segment(-Vec2::X, Vec2::X)
+)]
 fn collides(#[case] shape1: CollisionShape, #[case] shape2: CollisionShape) {
     assert!(shape1.is_collided_with(&shape2))
 }
@@ -50,6 +58,14 @@ fn collides(#[case] shape1: CollisionShape, #[case] shape2: CollisionShape) {
 #[case(
     CollisionShape::new_circle(1.0),
     CollisionShape::new_rectangle(2.0, 2.0).with_transform(Transform::from_angle_translation(consts::FRAC_PI_4, Vec2::X * 2.5)),
+)]
+#[case(
+    CollisionShape::new_circle(1.0),
+    CollisionShape::new_segment(Vec2::X * 1.0, Vec2::X * 2.0)
+)]
+#[case(
+    CollisionShape::new_segment(Vec2::Y * 0.5, Vec2::Y),
+    CollisionShape::new_segment(-Vec2::X, Vec2::X)
 )]
 fn does_not_collide(#[case] shape1: CollisionShape, #[case] shape2: CollisionShape) {
     assert!(!shape1.is_collided_with(&shape2))

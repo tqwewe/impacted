@@ -95,6 +95,10 @@ impl CollisionShape {
     pub fn new_rectangle(width: f32, height: f32) -> Self {
         shapes::Rectangle::new(width, height).into()
     }
+    
+    pub fn new_segment(start_point: impl Into<[f32; 2]>, end_point: impl Into<[f32; 2]>) -> Self {
+        shapes::Segment::new(start_point, end_point).into()
+    }
 
     /// Set the transform (translation, rotation and scale)
     ///
